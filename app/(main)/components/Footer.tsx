@@ -1,0 +1,192 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { fetchTenants, fetchTenantBySlug, type Tenant } from "@/api/queries";
+
+const Footer: React.FC = () => {
+  const [allExpanded, setAllExpanded] = useState<boolean>(false);
+  const [tenants, setTenants] = useState<Tenant[]>([]);
+  const [currentTenant, setCurrentTenant] = useState<Tenant | null>(null);
+
+  useEffect(() => {
+    // Fetch tenants
+    const loadTenants = async () => {
+      const data = await fetchTenants();
+      setTenants(data);
+    };
+
+    loadTenants();
+
+    // Detect if we're on a tenant subdomain and fetch tenant data
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      const parts = hostname.split(".");
+
+      // Check if there's a subdomain (e.g., yellow-bistro.localhost)
+      if (parts.length > 1 && hostname.includes("localhost")) {
+        const subdomain = parts[0];
+
+        if (subdomain && subdomain !== "www") {
+          fetchTenantBySlug(subdomain)
+            .then((data) => {
+              if (data) setCurrentTenant(data);
+            })
+            .catch((err) => {
+              console.error("Error fetching tenant:", err);
+            });
+        }
+      }
+    }
+  }, []);
+
+  const toggleAll = () => setAllExpanded((v) => !v);
+
+  return (
+    <footer
+      className="w-full min-h-[50vh] flex flex-col relative"
+      style={{ backgroundColor: "rgb(97,89,55)" }}
+    >
+      {/* Top Section - Navigation Links */}
+      <div
+        className=" px-8 shrink-0 border-t border-[rgb(124,118,89)] mt-8"
+        style={{ backgroundColor: "rgb(97,89,55)" }}
+      >
+        <div className="w-full mx-auto">
+          <button
+            onClick={toggleAll}
+            className="w-full flex justify-between items-center text-sm font-bold tracking-wider mb-4 mt-4 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[rgb(97,89,55)] rounded py-2 text-[rgba(172,163,133,0.95)]"
+            aria-expanded={allExpanded}
+          >
+            <span className="px-2 py-1">Check Out Our Sisters</span>
+            <span
+              className={`transition-transform duration-300 ${
+                allExpanded ? "rotate-180" : ""
+              }`}
+            >
+              ▼
+            </span>
+          </button>
+
+          <div className={`${allExpanded ? "block" : "hidden"}`}>
+            {tenants.map((tenant, index) => {
+              const tenantUrl = `http://${tenant.slug}.localhost:3001`;
+              return (
+                <div
+                  key={tenant.id}
+                  className="text-white h-full border-b md:border-b-0 md:border-r last:border-r-0 border-[rgb(124,118,89)]"
+                >
+                  <h3 className="text-sm font-bold tracking-wider mb-4 mt-6 px-2">
+                    <a
+                      href={tenantUrl}
+                      className="py-1 rounded text-[rgba(172,163,133,0.95)] hover:text-white transition-colors duration-300 cursor-pointer underline decoration-1 hover:decoration-2 underline-offset-4"
+                    >
+                      {tenant.name.toLowerCase()}
+                    </a>
+                  </h3>
+
+                  <div className="px-2">
+                    <ul className="space-y-2 mb-6">
+                      {tenant.address && (
+                        <li>
+                          <span className="text-[rgba(172,163,133,0.95)] text-sm leading-relaxed">
+                            Address: {tenant.address}
+                          </span>
+                        </li>
+                      )}
+                      {tenant.phone && (
+                        <li>
+                          <span className="text-[rgba(172,163,133,0.95)] text-sm leading-relaxed">
+                            Hotline: {tenant.phone}
+                          </span>
+                        </li>
+                      )}
+                      {tenant.email && (
+                        <li>
+                          <span className="text-[rgba(172,163,133,0.95)] text-sm leading-relaxed">
+                            Email: {tenant.email}
+                          </span>
+                        </li>
+                      )}
+                    </ul>
+
+                    <div className="flex gap-4 mt-4 mb-6">
+                      <a
+                        href="https://facebook.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[rgba(172,163,133,0.89)] hover:text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[rgb(97,89,55)] rounded"
+                        aria-label={`Visit ${tenant.name} on Facebook`}
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                      </a>
+                      <a
+                        href="https://instagram.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[rgba(172,163,133,0.89)] hover:text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[rgb(97,89,55)] rounded"
+                        aria-label={`Visit ${tenant.name} on Instagram`}
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                      </a>
+                      <a
+                        href="https://tiktok.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[rgba(172,163,133,0.89)] hover:text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[rgb(97,89,55)] rounded"
+                        aria-label={`Visit ${tenant.name} on TikTok`}
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        ></svg>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Small separator after each section */}
+                  <div className="h-px w-full bg-[rgb(124,118,89)] my-4" />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Separator Line */}
+      <div
+        className="h-px w-full shrink-0"
+        style={{ backgroundColor: "rgb(124,118,89)" }}
+      ></div>
+
+      {/* Middle Section - Large Brand Name */}
+      <div
+        className="flex items-center justify-center flex-1 px-4 md:px-8 py-8"
+        style={{ backgroundColor: "rgb(97,89,55)" }}
+      >
+        <h1 className="text-[4rem] sm:text-[5rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-bold bg-linear-to-b from-gray-100 to-gray-300 bg-clip-text text-transparent tracking-tight leading-tight text-center break-words overflow-visible">
+          {currentTenant ? currentTenant.name.toLowerCase() : "elementa"}
+        </h1>
+      </div>
+
+      {/* Bottom Section - Copyright and Attribution */}
+      <div className="w-full border-t h-12 mt-6 mb-6 text-xs text-[rgba(172,163,133,0.89)] text-bold border-[rgb(124,118,89)] border-b text-center items-center justify-center flex">
+        Copyright © 2024 hehehihi. All rights reserved.
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
