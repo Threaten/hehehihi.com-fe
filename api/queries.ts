@@ -27,21 +27,22 @@ export const httpLink = new HttpLink({
       // Redirect to error page on network failure
       if (typeof window !== "undefined") {
         const pathname = window.location.pathname;
-        
+
         // Prevent redirect loop - don't redirect if already on error page
         if (pathname.includes("somethingwentwrong")) {
           throw error;
         }
-        
+
         // Redirect to main domain's error page (remove subdomain)
         const hostname = window.location.hostname;
         const port = window.location.port;
         const protocol = window.location.protocol;
-        
+
         // Extract base domain (remove subdomain)
         const parts = hostname.split(".");
-        const baseDomain = parts.length > 1 ? parts.slice(1).join(".") : hostname;
-        
+        const baseDomain =
+          parts.length > 1 ? parts.slice(1).join(".") : hostname;
+
         window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
       }
       throw error;
@@ -54,7 +55,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       console.error(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
       );
     });
   }
@@ -64,21 +65,21 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     // Redirect to error page on network error
     if (typeof window !== "undefined") {
       const pathname = window.location.pathname;
-      
+
       // Prevent redirect loop - don't redirect if already on error page
       if (pathname.includes("somethingwentwrong")) {
         return;
       }
-      
+
       // Redirect to main domain's error page (remove subdomain)
       const hostname = window.location.hostname;
       const port = window.location.port;
       const protocol = window.location.protocol;
-      
+
       // Extract base domain (remove subdomain)
       const parts = hostname.split(".");
       const baseDomain = parts.length > 1 ? parts.slice(1).join(".") : hostname;
-      
+
       window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
     }
   }
@@ -122,6 +123,7 @@ export interface Tenant {
   };
   shortAboutTitle?: string;
   shortAboutText?: string;
+  aboutus?: any;
   newMenu?: Array<{
     src?: {
       url: string;
@@ -218,6 +220,7 @@ const GET_TENANTS = gql`
         }
         shortAboutTitle
         shortAboutText
+        aboutus
         newMenu {
           src {
             url
@@ -259,6 +262,7 @@ const GET_TENANT = gql`
         }
         shortAboutTitle
         shortAboutText
+        aboutus
         newMenu {
           src {
             url

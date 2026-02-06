@@ -305,3 +305,172 @@ h6,
 .delay-500 {
   animation-delay: 0.5s;
 }
+
+/* Rich Text Content Styling */
+.richtext-content {
+  @apply text-gray-900;
+}
+
+/* Text formatting - handle multiple possible class names and styles */
+.richtext-content strong,
+.richtext-content b,
+.richtext-content [style*="font-weight: bold"],
+.richtext-content [style*="font-weight:bold"],
+.richtext-content .editor-text-bold,
+.richtext-content .text-bold,
+.richtext-content span[data-lexical-text="true"][style*="font-weight"] {
+  font-weight: 700 !important;
+}
+
+.richtext-content em,
+.richtext-content i,
+.richtext-content [style*="font-style: italic"],
+.richtext-content [style*="font-style:italic"],
+.richtext-content .editor-text-italic,
+.richtext-content .text-italic,
+.richtext-content span[data-lexical-text="true"][style*="font-style"] {
+  font-style: italic !important;
+}
+
+.richtext-content u,
+.richtext-content [style*="text-decoration: underline"],
+.richtext-content [style*="text-decoration:underline"],
+.richtext-content [style*="text-decoration-line: underline"],
+.richtext-content .editor-text-underline,
+.richtext-content .text-underline {
+  text-decoration: underline !important;
+}
+
+.richtext-content s,
+.richtext-content del,
+.richtext-content strike,
+.richtext-content [style*="text-decoration: line-through"],
+.richtext-content [style*="text-decoration:line-through"],
+.richtext-content [style*="text-decoration-line: line-through"],
+.richtext-content .editor-text-strikethrough,
+.richtext-content .text-strikethrough {
+  text-decoration: line-through !important;
+}
+
+/* Combined decorations */
+.richtext-content
+  [style*="text-decoration"][style*="underline"][style*="line-through"] {
+  text-decoration: underline line-through !important;
+}
+
+.richtext-content h1 {
+  @apply text-4xl font-bold mb-4 mt-8;
+}
+
+.richtext-content h2 {
+  @apply text-3xl font-bold mb-3 mt-6;
+}
+
+.richtext-content h3 {
+  @apply text-2xl font-bold mb-3 mt-5;
+}
+
+.richtext-content h4 {
+  @apply text-xl font-bold mb-2 mt-4;
+}
+
+.richtext-content h5 {
+  @apply text-lg font-bold mb-2 mt-3;
+}
+
+.richtext-content h6 {
+  @apply text-base font-bold mb-2 mt-3;
+}
+
+.richtext-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.richtext-content a {
+  @apply text-blue-600 underline hover:text-blue-800;
+}
+
+.richtext-content ul {
+  @apply list-disc list-inside mb-4 ml-4;
+}
+
+.richtext-content ol {
+  @apply list-decimal list-inside mb-4 ml-4;
+}
+
+.richtext-content li {
+  @apply mb-2;
+}
+
+.richtext-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4;
+}
+
+.richtext-content code {
+  @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
+}
+
+.richtext-content pre {
+  @apply bg-gray-100 p-4 rounded overflow-x-auto mb-4;
+}
+
+.richtext-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.richtext-content table {
+  @apply w-full border-collapse mb-4;
+}
+
+.richtext-content th,
+.richtext-content td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+.richtext-content th {
+  @apply bg-gray-100 font-bold;
+}
+
+.richtext-content hr {
+  @apply my-8 border-t border-gray-300;
+}
+
+.richtext-content img {
+  @apply max-w-full h-auto rounded-lg my-4;
+}
+
+.richtext-content sup {
+  @apply align-super text-xs;
+}
+
+.richtext-content sub {
+  @apply align-sub text-xs;
+}
+
+.richtext-content input[type="checkbox"] {
+  @apply mr-2 h-4 w-4;
+}
+
+.richtext-content ul[data-list-type="check"] {
+  @apply list-none;
+}
+
+.richtext-content ul[data-list-type="check"] li {
+  @apply flex items-start mb-2;
+}
+
+.richtext-content .editor-text-code {
+  @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
+}
+
+.richtext-content figure {
+  @apply my-4;
+}
+
+.richtext-content figure img {
+  @apply mx-auto;
+}
+
+.richtext-content figure figcaption {
+  @apply text-center text-sm text-gray-600 mt-2;
+}

@@ -40,8 +40,7 @@ export default function StructuredData() {
     name: tenantName,
     image:
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    description:
-      `Experience exceptional fine dining at ${tenantName}. Contemporary cuisine with locally-sourced ingredients in an elegant atmosphere.`,
+    description: `Experience exceptional fine dining at ${tenantName}. Contemporary cuisine with locally-sourced ingredients in an elegant atmosphere.`,
     servesCuisine: "Contemporary",
     priceRange: "$$$",
     telephone: tenantPhone,

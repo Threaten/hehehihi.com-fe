@@ -53,7 +53,7 @@ const ContactForm = ({
             }
           } else if (initialBranch) {
             const decodedBranch = decodeURIComponent(
-              initialBranch.replace(/\+/g, " ")
+              initialBranch.replace(/\+/g, " "),
             );
             setSelectedBranch(decodedBranch);
           } else {
@@ -156,7 +156,7 @@ const ContactForm = ({
       await createContactMessage(
         customer.id,
         formData.message,
-        selectedTenant.id
+        selectedTenant.id,
       );
 
       console.log("Contact message submitted successfully");
@@ -195,7 +195,7 @@ const ContactForm = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({

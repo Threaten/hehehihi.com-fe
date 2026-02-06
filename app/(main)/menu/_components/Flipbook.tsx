@@ -89,7 +89,9 @@ const Flipbook = ({ initialBranch }: { initialBranch?: string }) => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center px-4">
-      <h2 className="text-3xl font-bold text-black mt-12 shrink-0">{selectedBranch.toLowerCase()} menu</h2>
+      <h2 className="text-3xl font-bold text-black mt-12 shrink-0">
+        {selectedBranch.toLowerCase()} menu
+      </h2>
 
       {/* Branch Selection */}
       <div className="shrink-0 mt-8">
