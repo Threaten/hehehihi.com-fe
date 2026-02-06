@@ -124,6 +124,10 @@ export interface Tenant {
   shortAboutTitle?: string;
   shortAboutText?: string;
   aboutus?: any;
+  facebook?: string;
+  instagram?: string;
+  tiktok?: string;
+  youtube?: string;
   newMenu?: Array<{
     src?: {
       url: string;
@@ -221,6 +225,10 @@ const GET_TENANTS = gql`
         shortAboutTitle
         shortAboutText
         aboutus
+        facebook
+        instagram
+        tiktok
+        youtube
         newMenu {
           src {
             url
@@ -263,6 +271,10 @@ const GET_TENANT = gql`
         shortAboutTitle
         shortAboutText
         aboutus
+        facebook
+        instagram
+        tiktok
+        youtube
         newMenu {
           src {
             url
