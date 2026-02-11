@@ -76,7 +76,7 @@ export default function Topbar() {
                   <div
                     key={tenant.id}
                     onClick={() => {
-                      window.location.href = `http://${tenant.slug}.localhost:3001`;
+                      window.location.href = getTenantUrl(tenant.slug);
                     }}
                     className="border border-gray-200 rounded-lg p-4 hover:border-gray-400 hover:bg-gray-50 transition-all cursor-pointer"
                   >
