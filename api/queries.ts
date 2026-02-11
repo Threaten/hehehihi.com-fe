@@ -31,37 +31,37 @@ export const httpLink = new HttpLink({
     }).catch((error) => {
       console.error("Network fetch error:", error);
       console.error("Failed endpoint:", uri);
-      // Redirect to error page on network failure
-      if (typeof window !== "undefined") {
-        const pathname = window.location.pathname;
+      // Temporarily disable redirect to see actual errors
+      // if (typeof window !== "undefined") {
+      //   const pathname = window.location.pathname;
 
-        // Prevent redirect loop - don't redirect if already on error page
-        if (pathname.includes("somethingwentwrong")) {
-          throw error;
-        }
+      //   // Prevent redirect loop - don't redirect if already on error page
+      //   if (pathname.includes("somethingwentwrong")) {
+      //     throw error;
+      //   }
 
-        // Redirect to main domain's error page
-        const hostname = window.location.hostname;
-        const port = window.location.port;
-        const protocol = window.location.protocol;
+      //   // Redirect to main domain's error page
+      //   const hostname = window.location.hostname;
+      //   const port = window.location.port;
+      //   const protocol = window.location.protocol;
 
-        // Extract base domain - keep at least 2 parts (domain.tld)
-        const parts = hostname.split(".");
-        let baseDomain;
+      //   // Extract base domain - keep at least 2 parts (domain.tld)
+      //   const parts = hostname.split(".");
+      //   let baseDomain;
 
-        if (hostname.includes("localhost")) {
-          // Keep localhost as-is
-          baseDomain = hostname;
-        } else if (parts.length > 2) {
-          // Has subdomain - remove it (e.g., red-bistro.hehehihi.com → hehehihi.com)
-          baseDomain = parts.slice(-2).join(".");
-        } else {
-          // Already base domain (e.g., hehehihi.com)
-          baseDomain = hostname;
-        }
+      //   if (hostname.includes("localhost")) {
+      //     // Keep localhost as-is
+      //     baseDomain = hostname;
+      //   } else if (parts.length > 2) {
+      //     // Has subdomain - remove it (e.g., red-bistro.hehehihi.com → hehehihi.com)
+      //     baseDomain = parts.slice(-2).join(".");
+      //   } else {
+      //     // Already base domain (e.g., hehehihi.com)
+      //     baseDomain = hostname;
+      //   }
 
-        window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
-      }
+      //   window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
+      // }
       throw error;
     });
   },
