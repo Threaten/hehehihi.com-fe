@@ -64,6 +64,8 @@ const Gallery = () => {
                     src={`${API_URL}${item.image.url}`}
                     alt={item.caption || item.image.alt || "Gallery image"}
                     fill
+                    priority={index < 3}
+                    quality={80}
                     sizes="(max-width: 768px) 33vw, 20vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />

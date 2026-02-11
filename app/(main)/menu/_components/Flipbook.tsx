@@ -205,6 +205,7 @@ const Flipbook = ({ initialBranch }: { initialBranch?: string }) => {
                   src={page}
                   alt={`Page ${index + 1}`}
                   fill
+                  quality={85}
                   sizes="50vw"
                   className="object-cover"
                 />

@@ -150,6 +150,7 @@ const ImageLightbox = ({
             src={imageSrc}
             alt={imageAlt}
             fill
+            quality={95}
             sizes="90vw"
             className="object-contain rounded-lg"
           />

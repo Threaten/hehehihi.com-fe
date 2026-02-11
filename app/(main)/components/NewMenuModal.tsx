@@ -103,6 +103,7 @@ export default function NewMenuModal({
                 src={`${API_URL}${images[currentIndex].src.url}`}
                 alt={`Menu page ${currentIndex + 1}`}
                 fill
+                quality={90}
                 sizes="(max-width: 768px) 100vw, 80vw"
                 className="object-contain"
               />
@@ -158,6 +159,7 @@ export default function NewMenuModal({
                       src={`${API_URL}${image.src.url}`}
                       alt={`Thumbnail ${index + 1}`}
                       fill
+                      quality={60}
                       sizes="80px"
                       className="object-cover"
                     />
