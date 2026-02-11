@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { fetchTenants, type Tenant } from "@/api/queries";
+import { getTenantUrl } from "@/app/utils/domain";
 
 export default function Topbar() {
   const [openCard, setOpenCard] = useState<string | null>(null);
@@ -127,7 +128,7 @@ export default function Topbar() {
                 <div
                   key={tenant.id}
                   onClick={() => {
-                    window.location.href = `http://${tenant.slug}.localhost:3001`;
+                    window.location.href = getTenantUrl(tenant.slug);
                   }}
                   className={`block hover:bg-gray-100 transition-colors rounded p-2 cursor-pointer ${
                     index < tenants.length - 1

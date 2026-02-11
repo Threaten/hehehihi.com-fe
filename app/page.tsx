@@ -270,7 +270,8 @@ export default function Welcome() {
                           setSelectedBranch(branch.name.toLowerCase());
                           setIsDropdownOpen(false);
                           // Redirect to tenant subdomain
-                          window.location.href = `http://${branch.slug}.localhost:3001`;
+                        const { getTenantUrl } = await import('./utils/domain');
+                        window.location.href = getTenantUrl(branch.slug);
                         }}
                         className={`w-full px-6 py-3 text-left italic text-black hover:bg-gray-100 transition-colors flex items-center gap-3 ${
                           index !== branches.length - 1

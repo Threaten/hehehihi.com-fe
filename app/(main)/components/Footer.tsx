@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { fetchTenants, fetchTenantBySlug, type Tenant } from "@/api/queries";
+import { getTenantUrl } from "@/app/utils/domain";
 
 const Footer: React.FC = () => {
   const [allExpanded, setAllExpanded] = useState<boolean>(false);
@@ -69,7 +70,7 @@ const Footer: React.FC = () => {
 
           <div className={`${allExpanded ? "block" : "hidden"}`}>
             {tenants.map((tenant, index) => {
-              const tenantUrl = `http://${tenant.slug}.localhost:3001`;
+            const tenantUrl = getTenantUrl(tenant.slug);
               return (
                 <div
                   key={tenant.id}
