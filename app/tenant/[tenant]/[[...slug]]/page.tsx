@@ -39,9 +39,18 @@ export default function TenantPage() {
       : [];
   const pathname = slug?.join("/") || "";
 
+  console.log("🔧 Tenant Page Debug:", {
+    params,
+    tenantSlug,
+    slug,
+    pathname,
+  });
+
   useEffect(() => {
+    console.log("🔄 useEffect triggered - tenantSlug:", tenantSlug);
     if (tenantSlug) {
       fetchTenantBySlug(tenantSlug).then((data) => {
+        console.log("📦 Tenant data fetched:", data);
         if (data) {
           setTenant(data);
 
@@ -56,6 +65,9 @@ export default function TenantPage() {
         }
         setLoading(false);
       });
+    } else {
+      console.warn("⚠️ No tenantSlug provided");
+      setLoading(false);
     }
   }, [tenantSlug]);
 
