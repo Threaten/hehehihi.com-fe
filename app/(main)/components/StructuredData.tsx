@@ -10,7 +10,7 @@ export default function StructuredData() {
 
   useEffect(() => {
     const subdomain = getCurrentSubdomain();
-    
+
     if (subdomain && subdomain !== "www" && subdomain !== "admin") {
       fetchTenantBySlug(subdomain)
         .then((data) => {

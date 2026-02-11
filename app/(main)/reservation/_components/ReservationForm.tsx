@@ -50,7 +50,7 @@ const ReservationForm = ({
     const loadTenants = async () => {
       try {
         // Detect if we're on a tenant subdomain
-        const { getCurrentSubdomain } = await import('@/app/utils/domain');
+        const { getCurrentSubdomain } = await import("@/app/utils/domain");
         const subdomainSlug = getCurrentSubdomain();
 
         // If on subdomain, fetch that specific tenant

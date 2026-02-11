@@ -42,15 +42,25 @@ export const httpLink = new HttpLink({
           throw error;
         }
 
-        // Redirect to main domain's error page (remove subdomain)
+        // Redirect to main domain's error page
         const hostname = window.location.hostname;
         const port = window.location.port;
         const protocol = window.location.protocol;
 
-        // Extract base domain (remove subdomain)
+        // Extract base domain - keep at least 2 parts (domain.tld)
         const parts = hostname.split(".");
-        const baseDomain =
-          parts.length > 1 ? parts.slice(1).join(".") : hostname;
+        let baseDomain;
+
+        if (hostname.includes("localhost")) {
+          // Keep localhost as-is
+          baseDomain = hostname;
+        } else if (parts.length > 2) {
+          // Has subdomain - remove it (e.g., red-bistro.hehehihi.com → hehehihi.com)
+          baseDomain = parts.slice(-2).join(".");
+        } else {
+          // Already base domain (e.g., hehehihi.com)
+          baseDomain = hostname;
+        }
 
         window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
       }
@@ -80,14 +90,25 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         return;
       }
 
-      // Redirect to main domain's error page (remove subdomain)
+      // Redirect to main domain's error page
       const hostname = window.location.hostname;
       const port = window.location.port;
       const protocol = window.location.protocol;
 
-      // Extract base domain (remove subdomain)
+      // Extract base domain - keep at least 2 parts (domain.tld)
       const parts = hostname.split(".");
-      const baseDomain = parts.length > 1 ? parts.slice(1).join(".") : hostname;
+      let baseDomain;
+
+      if (hostname.includes("localhost")) {
+        // Keep localhost as-is
+        baseDomain = hostname;
+      } else if (parts.length > 2) {
+        // Has subdomain - remove it (e.g., red-bistro.hehehihi.com → hehehihi.com)
+        baseDomain = parts.slice(-2).join(".");
+      } else {
+        // Already base domain (e.g., hehehihi.com)
+        baseDomain = hostname;
+      }
 
       window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
     }

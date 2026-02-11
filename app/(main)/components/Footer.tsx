@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
 
     // Detect if we're on a tenant subdomain and fetch tenant data
     const subdomain = getCurrentSubdomain();
-    
+
     if (subdomain && subdomain !== "www" && subdomain !== "admin") {
       fetchTenantBySlug(subdomain)
         .then((data) => {

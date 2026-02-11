@@ -23,7 +23,7 @@ export default function Home() {
   // Detect if we're on a tenant subdomain and fetch tenant data
   useEffect(() => {
     const checkSubdomain = async () => {
-      const { getCurrentSubdomain } = await import('@/app/utils/domain');
+      const { getCurrentSubdomain } = await import("@/app/utils/domain");
       const subdomain = getCurrentSubdomain();
 
       if (subdomain && subdomain !== "admin") {
@@ -48,7 +48,7 @@ export default function Home() {
           });
       }
     };
-    
+
     checkSubdomain();
   }, []);
 

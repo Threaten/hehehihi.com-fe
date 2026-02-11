@@ -14,7 +14,7 @@ export default function Navbar() {
   // Detect if we're on a tenant subdomain and fetch tenant data
   useEffect(() => {
     const subdomain = getCurrentSubdomain();
-    
+
     if (subdomain && subdomain !== "www" && subdomain !== "admin") {
       console.log("Fetching tenant for subdomain:", subdomain);
       fetchTenantBySlug(subdomain)

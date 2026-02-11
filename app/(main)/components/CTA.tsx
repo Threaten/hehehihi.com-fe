@@ -10,7 +10,7 @@ const CTA = () => {
 
   useEffect(() => {
     const subdomain = getCurrentSubdomain();
-    
+
     if (subdomain && subdomain !== "www" && subdomain !== "admin") {
       fetchTenantBySlug(subdomain)
         .then((data) => {
