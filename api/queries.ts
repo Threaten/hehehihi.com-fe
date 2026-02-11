@@ -5,7 +5,6 @@ import {
   HttpLink,
   ApolloLink,
 } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
 
 /**
  * Apollo Client Setup
@@ -68,54 +67,8 @@ export const httpLink = new HttpLink({
   },
 });
 
-// Error handling link
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      console.error(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      );
-    });
-  }
-
-  if (networkError) {
-    console.error(`[Network error]: ${networkError}`);
-    // Redirect to error page on network error
-    if (typeof window !== "undefined") {
-      const pathname = window.location.pathname;
-
-      // Prevent redirect loop - don't redirect if already on error page
-      if (pathname.includes("somethingwentwrong")) {
-        return;
-      }
-
-      // Redirect to main domain's error page
-      const hostname = window.location.hostname;
-      const port = window.location.port;
-      const protocol = window.location.protocol;
-
-      // Extract base domain - keep at least 2 parts (domain.tld)
-      const parts = hostname.split(".");
-      let baseDomain;
-
-      if (hostname.includes("localhost")) {
-        // Keep localhost as-is
-        baseDomain = hostname;
-      } else if (parts.length > 2) {
-        // Has subdomain - remove it (e.g., red-bistro.hehehihi.com → hehehihi.com)
-        baseDomain = parts.slice(-2).join(".");
-      } else {
-        // Already base domain (e.g., hehehihi.com)
-        baseDomain = hostname;
-      }
-
-      window.location.href = `${protocol}//${baseDomain}${port ? `:${port}` : ""}/somethingwentwrong`;
-    }
-  }
-});
-
 export const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, httpLink]),
+  link: httpLink,
   cache: new InMemoryCache({}),
   defaultOptions: {
     query: {
@@ -451,7 +404,7 @@ export const fetchTenants = async (limit = 100) => {
       query: GET_TENANTS,
       variables: { limit },
     });
-    return data.Tenants?.docs || [];
+    return data?.Tenants?.docs || [];
   } catch (error) {
     console.error("Error fetching tenants:", error);
     return [];
@@ -479,9 +432,9 @@ export const fetchTenantBySlug = async (slug: string) => {
 
     console.log(
       "✅ Tenant data received:",
-      data.Tenants?.docs?.[0] ? "Found" : "Not found",
+      data?.Tenants?.docs?.[0] ? "Found" : "Not found",
     );
-    return data.Tenants?.docs?.[0] || null;
+    return data?.Tenants?.docs?.[0] || null;
   } catch (error) {
     console.error("❌ Error fetching tenant:", error);
     console.error("   Slug:", slug);
@@ -499,7 +452,7 @@ export const fetchHomeInformation = async () => {
     const { data } = await client.query<HomeInformationResponse>({
       query: GET_HOME_INFORMATION,
     });
-    return data.HomeInformation;
+    return data?.HomeInformation;
   } catch (error) {
     console.error("Error fetching home information:", error);
     return null;
@@ -518,10 +471,10 @@ export const fetchGallery = async (branchId?: string) => {
       query: GET_GALLERY,
     });
     console.log("Gallery data received:", data);
-    console.log("Gallery docs:", data.Galleries.docs);
+    console.log("Gallery docs:", data?.Galleries?.docs);
 
     // Filter by branch on the client side if branchId is provided
-    let docs = data.Galleries.docs;
+    let docs = data?.Galleries?.docs || [];
     if (branchId && docs.length > 0) {
       docs = docs.filter((item) => item.branch?.id === branchId);
     }
@@ -550,7 +503,7 @@ export const getCustomerByPhone = async (phone: string) => {
       query: GET_CUSTOMER,
       variables: { customerPhone: phone },
     });
-    return data.Customers?.docs?.[0] || null;
+    return data?.Customers?.docs?.[0] || null;
   } catch (error) {
     console.error("Error fetching customer:", error);
     return null;
@@ -572,7 +525,7 @@ export const createCustomer = async (name: string, phone: string) => {
         customerPhone: phone,
       },
     });
-    return data.createCustomer;
+    return (data as any)?.createCustomer;
   } catch (error) {
     console.error("Error creating customer:", error);
     throw error;
@@ -607,7 +560,7 @@ export const createReservation = async (
         status: "Pending",
       },
     });
-    return data;
+    return data as any;
   } catch (error) {
     console.error("Error creating reservation:", error);
     throw error;
@@ -636,7 +589,7 @@ export const createContactMessage = async (
         status: "Pending",
       },
     });
-    return data;
+    return data as any;
   } catch (error) {
     console.error("Error creating contact message:", error);
     throw error;

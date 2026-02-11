@@ -29,7 +29,7 @@ export default function Welcome() {
           fetchHomeInformation(),
         ]);
         setBranches(tenantsData);
-        setHomeInfo(homeData);
+        setHomeInfo(homeData || null);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

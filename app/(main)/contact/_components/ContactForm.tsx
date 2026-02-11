@@ -164,14 +164,19 @@ const ContactForm = ({
         customer = await createCustomer(formData.name, formData.phone);
       }
 
-      // Step 3: Find the selected tenant
+      // Step 3: Ensure customer exists
+      if (!customer) {
+        throw new Error("Failed to create or retrieve customer");
+      }
+
+      // Step 4: Find the selected tenant
       const selectedTenant = tenants.find((t) => t.name === formData.branch);
 
       if (!selectedTenant) {
         throw new Error("Selected branch not found");
       }
 
-      // Step 4: Create contact message
+      // Step 5: Create contact message
       await createContactMessage(
         customer.id,
         formData.message,

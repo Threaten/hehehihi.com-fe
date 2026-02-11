@@ -10,8 +10,8 @@ import CTA from "../../../(main)/components/CTA";
 import NewMenuModal from "../../../(main)/components/NewMenuModal";
 import AboutPage from "../../../(main)/about/page";
 import GalleryPage from "../../../(main)/gallery/page";
-import ContactPage from "../../../(main)/contact/page";
-import ReservationPage from "../../../(main)/reservation/page";
+import ContactForm from "../../../(main)/contact/_components/ContactForm";
+import ReservationForm from "../../../(main)/reservation/_components/ReservationForm";
 import TenantFlipbookWrapper from "../../../(main)/menu/_components/TenantFlipbookWrapper";
 import Link from "next/link";
 import {
@@ -190,16 +190,10 @@ export default function TenantPage() {
       return <GalleryPage />;
 
     case "contact":
-      return (
-        <ContactPage searchParams={Promise.resolve({ tenant: tenant.slug })} />
-      );
+      return <ContactForm currentTenant={tenant.slug} />;
 
     case "reservation":
-      return (
-        <ReservationPage
-          searchParams={Promise.resolve({ tenant: tenant.slug })}
-        />
-      );
+      return <ReservationForm currentTenant={tenant.slug} />;
 
     case "somethingwentwrong":
       return (

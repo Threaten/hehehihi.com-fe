@@ -33,7 +33,7 @@ export default function TenantFlipbook({
       cMapPacked: true,
       standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
     }),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -154,6 +154,11 @@ export default function TenantFlipbook({
                 swipeDistance={50}
                 showPageCorners={true}
                 disableFlipByClick={false}
+                style={{}}
+                minWidth={0}
+                maxWidth={pageWidth * 2}
+                minHeight={0}
+                maxHeight={isMobile ? 500 : 750}
               >
                 {Array.from(new Array(numPages), (_, index) => (
                   <div

@@ -245,6 +245,11 @@ const ReservationForm = ({
         console.log("Existing customer found:", customer);
       }
 
+      // Ensure customer exists
+      if (!customer) {
+        throw new Error("Failed to create or retrieve customer");
+      }
+
       // Find the branch/tenant ID by name
       const selectedTenant = tenants.find((t) => t.name === formData.branch);
       if (!selectedTenant) {

@@ -3,11 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
 
-  // Disable error overlay temporarily
-  devIndicators: {
-    buildActivity: false,
-  },
-
   // Enable support for subdomains in development
   experimental: {
     serverActions: {

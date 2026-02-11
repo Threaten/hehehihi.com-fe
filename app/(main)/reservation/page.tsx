@@ -2,9 +2,9 @@
 
 import ReservationForm from "./_components/ReservationForm";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-const Reservation = () => {
+const ReservationContent = () => {
   const searchParams = useSearchParams();
   const [tenant, setTenant] = useState<string | undefined>(undefined);
 
@@ -27,6 +27,14 @@ const Reservation = () => {
   console.log("Reservation page - tenant:", tenant);
 
   return <ReservationForm initialBranch={branch} currentTenant={tenant} />;
+};
+
+const Reservation = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReservationContent />
+    </Suspense>
+  );
 };
 
 export default Reservation;

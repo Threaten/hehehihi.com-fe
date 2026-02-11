@@ -89,7 +89,7 @@ const Gallery = () => {
       </div>
 
       {/* Image Lightbox */}
-      {currentImage && (
+      {currentImage && currentImage.image && (
         <ImageLightbox
           isOpen={lightboxOpen}
           imageSrc={`${API_URL}${currentImage.image.url}`}
