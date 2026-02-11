@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    unoptimized: true, // Disable image optimization for faster loading from external sources
     domains: ["images.unsplash.com"],
     remotePatterns: [
       {
