@@ -4,26 +4,37 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const hostname = request.headers.get("host") || "";
 
-  // Check if it's a subdomain by looking for a dot before localhost
+  // Check if it's a subdomain
   // e.g., gold.localhost:3001 has a subdomain "gold"
-  // but localhost:3001 does not
+  // e.g., red-bistro.hehehihi.com has a subdomain "red-bistro"
+  // but localhost:3001 or hehehihi.com do not
   const parts = hostname.split(".");
 
-  // Only process if there are multiple parts (subdomain exists)
-  // and the request is to a localhost domain
-  if (parts.length > 1 && hostname.includes("localhost")) {
-    const subdomain = parts[0];
+  // Skip if it's the admin subdomain (backend)
+  if (hostname.startsWith("admin.")) {
+    return NextResponse.next();
+  }
 
-    // Make sure it's not www
-    if (subdomain && subdomain !== "www") {
-      const url = request.nextUrl.clone();
+  let subdomain: string | null = null;
 
-      // Rewrite to tenant-specific path
-      const pathname = url.pathname;
-      url.pathname = `/tenant/${subdomain}${pathname === "/" ? "" : pathname}`;
+  // Development: tenant.localhost:3001
+  if (hostname.includes("localhost") && parts.length > 1) {
+    subdomain = parts[0];
+  }
+  // Production: tenant.hehehihi.com (more than 2 parts means subdomain exists)
+  else if (parts.length > 2) {
+    subdomain = parts[0];
+  }
 
-      return NextResponse.rewrite(url);
-    }
+  // If we found a subdomain and it's not www, rewrite to tenant path
+  if (subdomain && subdomain !== "www" && subdomain !== "admin") {
+    const url = request.nextUrl.clone();
+
+    // Rewrite to tenant-specific path
+    const pathname = url.pathname;
+    url.pathname = `/tenant/${subdomain}${pathname === "/" ? "" : pathname}`;
+
+    return NextResponse.rewrite(url);
   }
 
   return NextResponse.next();

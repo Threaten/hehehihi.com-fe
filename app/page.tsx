@@ -272,7 +272,7 @@ export default function Welcome() {
                           setIsDropdownOpen(false);
                           // Redirect to tenant subdomain
 
-                        window.location.href = getTenantUrl(branch.slug);
+                          window.location.href = getTenantUrl(branch.slug);
                         }}
                         className={`w-full px-6 py-3 text-left italic text-black hover:bg-gray-100 transition-colors flex items-center gap-3 ${
                           index !== branches.length - 1

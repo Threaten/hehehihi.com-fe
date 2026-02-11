@@ -18,10 +18,13 @@ export const httpLink = new HttpLink({
     "http://localhost:3000/api/graphql",
   fetch: function (uri, options) {
     // Log the API endpoint being used (only in development)
-    if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+    if (
+      typeof window !== "undefined" &&
+      process.env.NODE_ENV === "development"
+    ) {
       console.log("🔗 GraphQL Endpoint:", uri);
     }
-    
+
     return fetch(uri, {
       ...options,
       next: {
@@ -443,14 +446,21 @@ export const fetchTenants = async (limit = 100) => {
 export const fetchTenantBySlug = async (slug: string) => {
   try {
     console.log("🔍 Fetching tenant by slug:", slug);
-    console.log("📡 GraphQL Endpoint:", process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "http://localhost:3000/api/graphql");
-    
+    console.log(
+      "📡 GraphQL Endpoint:",
+      process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
+        "http://localhost:3000/api/graphql",
+    );
+
     const { data } = await client.query<TenantResponse>({
       query: GET_TENANT,
       variables: { slug },
     });
-    
-    console.log("✅ Tenant data received:", data.Tenants?.docs?.[0] ? "Found" : "Not found");
+
+    console.log(
+      "✅ Tenant data received:",
+      data.Tenants?.docs?.[0] ? "Found" : "Not found",
+    );
     return data.Tenants?.docs?.[0] || null;
   } catch (error) {
     console.error("❌ Error fetching tenant:", error);

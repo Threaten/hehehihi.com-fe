@@ -3,6 +3,7 @@
 ## ✅ Before Deploying
 
 ### 1. Environment Variables Setup
+
 - [ ] Backend is deployed and accessible
 - [ ] You have the backend URL (e.g., `https://api.yourdomain.com`)
 - [ ] Backend has CORS configured to allow your frontend domain
@@ -17,6 +18,7 @@ NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://your-backend-url.com/api/graphql
 ```
 
 **Important Notes:**
+
 - Do NOT include trailing slashes
 - Use HTTPS in production
 - Both variables are required
@@ -24,17 +26,20 @@ NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://your-backend-url.com/api/graphql
 ### 3. Platform-Specific Steps
 
 #### Vercel
+
 1. Go to Project Settings → Environment Variables
 2. Add both variables
 3. Select Production, Preview, Development as needed
 4. Redeploy
 
 #### Netlify
+
 1. Go to Site Settings → Environment Variables
 2. Add both variables
 3. Trigger a new deploy
 
 #### Railway/Render/Other
+
 1. Navigate to environment variables section
 2. Add both variables
 3. Redeploy the service
@@ -88,6 +93,7 @@ curl https://your-backend-url.com/api/graphql \
 ## 📝 Quick Reference
 
 ### Local Development
+
 ```bash
 # .env.local
 NEXT_PUBLIC_API_URL=http://localhost:3000
@@ -95,6 +101,7 @@ NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:3000/api/graphql
 ```
 
 ### Production
+
 ```bash
 # Set in deployment platform
 NEXT_PUBLIC_API_URL=https://api.yourdomain.com

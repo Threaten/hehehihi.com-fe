@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
 
           <div className={`${allExpanded ? "block" : "hidden"}`}>
             {tenants.map((tenant, index) => {
-            const tenantUrl = getTenantUrl(tenant.slug);
+              const tenantUrl = getTenantUrl(tenant.slug);
               return (
                 <div
                   key={tenant.id}

@@ -4,7 +4,7 @@ This is the frontend for the multi-tenant restaurant management system, built wi
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recommended) or npm
 - Backend API running (see `../be` folder)
 
@@ -41,11 +41,13 @@ NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://your-backend-domain.com/api/graphql
 ### Development
 
 1. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 2. Run the development server:
+
 ```bash
 pnpm dev
 ```
@@ -87,6 +89,7 @@ When deploying to any platform (Vercel, Netlify, etc.), you **MUST** set these e
 #### Other Platforms
 
 Make sure to:
+
 1. Set the environment variables listed above
 2. Run `pnpm build` as the build command
 3. Set `pnpm start` as the start command
@@ -97,7 +100,8 @@ Make sure to:
 ### "Cannot fetch data" or empty pages
 
 **Problem**: Frontend can't connect to backend
-**Solution**: 
+**Solution**:
+
 1. Check that `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_GRAPHQL_ENDPOINT` are set correctly
 2. Verify backend is deployed and accessible
 3. Check CORS settings in backend allow requests from your frontend domain
@@ -110,7 +114,8 @@ Make sure to:
 ### GraphQL errors
 
 **Problem**: GraphQL queries failing
-**Solution**: 
+**Solution**:
+
 1. Verify `NEXT_PUBLIC_GRAPHQL_ENDPOINT` points to `/api/graphql` on your backend
 2. Check backend logs for errors
 3. Test the GraphQL endpoint directly in browser or Postman
