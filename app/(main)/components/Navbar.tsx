@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { fetchTenantBySlug, type Tenant } from "@/api/queries";
+import { getCurrentSubdomain } from "@/app/utils/domain";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,31 +13,20 @@ export default function Navbar() {
 
   // Detect if we're on a tenant subdomain and fetch tenant data
   useEffect(() => {
-    // Get hostname from browser
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      const parts = hostname.split(".");
-
-      // Check if there's a subdomain (e.g., yellow-bistro.localhost)
-      if (parts.length > 1 && hostname.includes("localhost")) {
-        const subdomain = parts[0];
-
-        if (subdomain && subdomain !== "www") {
-          console.log("Fetching tenant for subdomain:", subdomain);
-          fetchTenantBySlug(subdomain)
-            .then((data) => {
-              console.log("Tenant data:", data);
-              if (data) setTenant(data);
-            })
-            .catch((err) => {
-              console.error("Error fetching tenant:", err);
-            });
-        } else {
-          setTenant(null);
-        }
-      } else {
-        setTenant(null);
-      }
+    const subdomain = getCurrentSubdomain();
+    
+    if (subdomain && subdomain !== "www" && subdomain !== "admin") {
+      console.log("Fetching tenant for subdomain:", subdomain);
+      fetchTenantBySlug(subdomain)
+        .then((data) => {
+          console.log("Tenant data:", data);
+          if (data) setTenant(data);
+        })
+        .catch((err) => {
+          console.error("Error fetching tenant:", err);
+        });
+    } else {
+      setTenant(null);
     }
   }, [pathname]);
 

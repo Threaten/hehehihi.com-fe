@@ -7,7 +7,7 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ tenant }) => {
-  const title = tenant?.heroTitle || "ELEMENTA";
+  const title = tenant?.heroTitle || tenant?.name || "ELEMENTA";
   const subtitle = tenant?.heroSubtitle || "Exceptional Dining Experience";
   const description =
     tenant?.heroDescription ||

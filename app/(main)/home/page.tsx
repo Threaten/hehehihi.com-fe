@@ -22,42 +22,34 @@ export default function Home() {
 
   // Detect if we're on a tenant subdomain and fetch tenant data
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      const parts = hostname.split(".");
+    const checkSubdomain = async () => {
+      const { getCurrentSubdomain } = await import('@/app/utils/domain');
+      const subdomain = getCurrentSubdomain();
 
-      // Check if there's a subdomain (localhost or production)
-      if (parts.length > 1) {
-        const subdomain = parts[0];
+      if (subdomain && subdomain !== "admin") {
+        fetchTenantBySlug(subdomain)
+          .then((data) => {
+            if (data) {
+              setTenant(data);
+              // Show modal if tenant has new menu items
+              if (data.newMenu && data.newMenu.length > 0) {
+                // Check if user has already seen this menu (stored in localStorage)
+                const seenMenuKey = `seen-menu-${data.id}`;
+                const hasSeenMenu = localStorage.getItem(seenMenuKey);
 
-        // Exclude 'www' and main domain scenarios
-        if (
-          subdomain &&
-          subdomain !== "www" &&
-          (hostname.includes("localhost") || parts.length >= 3)
-        ) {
-          fetchTenantBySlug(subdomain)
-            .then((data) => {
-              if (data) {
-                setTenant(data);
-                // Show modal if tenant has new menu items
-                if (data.newMenu && data.newMenu.length > 0) {
-                  // Check if user has already seen this menu (stored in localStorage)
-                  const seenMenuKey = `seen-menu-${data.id}`;
-                  const hasSeenMenu = localStorage.getItem(seenMenuKey);
-
-                  if (!hasSeenMenu) {
-                    setShowNewMenuModal(true);
-                  }
+                if (!hasSeenMenu) {
+                  setShowNewMenuModal(true);
                 }
               }
-            })
-            .catch((err) => {
-              console.error("Error fetching tenant:", err);
-            });
-        }
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching tenant:", err);
+          });
       }
-    }
+    };
+    
+    checkSubdomain();
   }, []);
 
   // Fetch gallery images

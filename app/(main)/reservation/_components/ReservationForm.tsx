@@ -50,21 +50,11 @@ const ReservationForm = ({
     const loadTenants = async () => {
       try {
         // Detect if we're on a tenant subdomain
-        let subdomainSlug: string | null = null;
-        if (typeof window !== "undefined") {
-          const hostname = window.location.hostname;
-          const parts = hostname.split(".");
-
-          if (parts.length > 1 && hostname.includes("localhost")) {
-            const subdomain = parts[0];
-            if (subdomain && subdomain !== "www") {
-              subdomainSlug = subdomain;
-            }
-          }
-        }
+        const { getCurrentSubdomain } = await import('@/app/utils/domain');
+        const subdomainSlug = getCurrentSubdomain();
 
         // If on subdomain, fetch that specific tenant
-        if (subdomainSlug) {
+        if (subdomainSlug && subdomainSlug !== "admin") {
           const tenant = await fetchTenantBySlug(subdomainSlug);
           if (tenant) {
             setCurrentBranchTenant(tenant);

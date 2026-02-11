@@ -3,30 +3,22 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchTenantBySlug, type Tenant } from "@/api/queries";
+import { getCurrentSubdomain } from "@/app/utils/domain";
 
 const CTA = () => {
   const [tenant, setTenant] = useState<Tenant | null>(null);
 
   useEffect(() => {
-    // Detect if we're on a tenant subdomain and fetch tenant data
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      const parts = hostname.split(".");
-
-      // Check if there's a subdomain (e.g., yellow-bistro.localhost)
-      if (parts.length > 1 && hostname.includes("localhost")) {
-        const subdomain = parts[0];
-
-        if (subdomain && subdomain !== "www") {
-          fetchTenantBySlug(subdomain)
-            .then((data) => {
-              if (data) setTenant(data);
-            })
-            .catch((err) => {
-              console.error("Error fetching tenant:", err);
-            });
-        }
-      }
+    const subdomain = getCurrentSubdomain();
+    
+    if (subdomain && subdomain !== "www" && subdomain !== "admin") {
+      fetchTenantBySlug(subdomain)
+        .then((data) => {
+          if (data) setTenant(data);
+        })
+        .catch((err) => {
+          console.error("Error fetching tenant:", err);
+        });
     }
   }, []);
 
