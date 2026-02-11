@@ -33,7 +33,7 @@ export default function TenantFlipbook({
       cMapPacked: true,
       standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
     }),
-    [],
+    []
   );
 
   useEffect(() => {
@@ -90,6 +90,7 @@ export default function TenantFlipbook({
       {isLoading && (
         <div className="mt-8 p-8 text-center">
           <div className="text-gray-600">Loading menu...</div>
+          <div className="text-xs text-gray-400 mt-2">From: {menuUrl}</div>
         </div>
       )}
 

@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Tenant, API_URL } from "@/api/queries";
 
 interface HeroProps {
@@ -26,15 +25,12 @@ const Hero: React.FC<HeroProps> = ({ tenant }) => {
     >
       {/* Background Image - only render if heroImageUrl exists */}
       {heroImageUrl && (
-        <Image
-          src={heroImageUrl}
-          alt={`${tenant?.name || "Restaurant"} hero background`}
-          fill
-          priority
-          quality={85}
-          sizes="100vw"
-          className="object-cover animate-[zoom_30s_ease-in-out_infinite]"
-        />
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-[zoom_30s_ease-in-out_infinite]"
+          style={{
+            backgroundImage: `url('${heroImageUrl}')`,
+          }}
+        ></div>
       )}
 
       {/* Overlay Gradient */}
