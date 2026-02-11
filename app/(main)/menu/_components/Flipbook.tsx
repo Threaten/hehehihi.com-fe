@@ -2,6 +2,7 @@
 
 "use client";
 import React, { useState, useRef, useEffect, useMemo } from "react";
+import Image from "next/image";
 import HTMLFlipBook from "react-pageflip";
 
 const Flipbook = ({ initialBranch }: { initialBranch?: string }) => {
@@ -198,13 +199,14 @@ const Flipbook = ({ initialBranch }: { initialBranch?: string }) => {
             {pages.map((page, index) => (
               <div
                 key={index}
-                className="page bg-white flex items-center justify-center"
+                className="page bg-white flex items-center justify-center relative"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={page}
                   alt={`Page ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="50vw"
+                  className="object-cover"
                 />
               </div>
             ))}

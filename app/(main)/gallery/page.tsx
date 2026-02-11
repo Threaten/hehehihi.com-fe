@@ -60,10 +60,12 @@ const Gallery = () => {
                 className="relative aspect-square overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group"
               >
                 {item.image && (
-                  <img
+                  <Image
                     src={`${API_URL}${item.image.url}`}
                     alt={item.caption || item.image.alt || "Gallery image"}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 768px) 33vw, 20vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 )}
                 {/* Branch Tag - Always Visible */}

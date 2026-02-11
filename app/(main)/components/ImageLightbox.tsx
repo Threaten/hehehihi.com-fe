@@ -145,11 +145,13 @@ const ImageLightbox = ({
         className="relative max-w-7xl max-h-[90vh] w-full mx-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full h-full flex items-center justify-center">
-          <img
+        <div className="relative w-full h-[85vh] flex items-center justify-center">
+          <Image
             src={imageSrc}
             alt={imageAlt}
-            className="max-w-full max-h-[85vh] object-contain rounded-lg"
+            fill
+            sizes="90vw"
+            className="object-contain rounded-lg"
           />
         </div>
 

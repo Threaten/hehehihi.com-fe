@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "@/api/queries";
 
@@ -98,10 +99,12 @@ export default function NewMenuModal({
           {/* Image Container */}
           <div className="relative w-full h-[50vh] md:h-[60vh] bg-gray-100 flex items-center justify-center">
             {images[currentIndex]?.src?.url && (
-              <img
+              <Image
                 src={`${API_URL}${images[currentIndex].src.url}`}
                 alt={`Menu page ${currentIndex + 1}`}
-                className="max-w-full max-h-full object-contain"
+                fill
+                sizes="(max-width: 768px) 100vw, 80vw"
+                className="object-contain"
               />
             )}
           </div>
@@ -151,10 +154,12 @@ export default function NewMenuModal({
                   }`}
                 >
                   {image.src?.url && (
-                    <img
+                    <Image
                       src={`${API_URL}${image.src.url}`}
                       alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="80px"
+                      className="object-cover"
                     />
                   )}
                 </button>
